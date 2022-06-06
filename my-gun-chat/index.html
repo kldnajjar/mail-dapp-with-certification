@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Gun Chat</title>
+</head>
+<body>
+
+    <div class="sign">
+        <input id="username" placeholder="Username">
+        <input id="password" placeholder="Password">
+        <button id="in">Sign in</button>
+        <button id="up">Sign Up</button>
+        <button id="getallusers">get all the users</button>
+    </div>
+
+    <div class="chat">
+        <ul class="chat_message_list">
+        </ul>
+
+        <div class="chat_input_containter">
+            <form class="chat_input_form">
+                <p class="nameText">user</p>
+                <input id="message_input" class="message_input" placeholder="Message"></input>
+                <button class="submit_button">Send</button>
+                <button id="getpub">get current user's pub</button>
+                <button id="set_to_friend_node">Add to friend node</button>
+                <button id="leave">Leave</button>
+            </form>
+        </div>
+
+        <ol class="usersList">
+        </ol>
+
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/lib/path.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/nts.js"></script>
+    <script defer src="main_enc.js"></script>
+
+</body>
+</html>

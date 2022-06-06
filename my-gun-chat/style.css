@@ -1,0 +1,22 @@
+* {
+    text-align: center;
+    list-style-position: inside;
+    margin: 5px;
+}
+
+.chat {
+    display: none;
+}
+
+.nameText {
+    display: inline-block;
+}
+
+.usersList {
+    display: inline-block;
+    width: 200px;
+}
+
+.chat_input_containter {
+    display: inline-block;
+}
