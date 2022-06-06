@@ -132,7 +132,8 @@ async function submit(e) {
   })
 
   // Encrypting messages
-  const myPair = await SEA.pair()
+  // const myPair = await SEA.pair()
+  const myPair = user._.sea
   
   let encryptionKey
   await friend_node.map().once((data, key) => {
@@ -142,12 +143,14 @@ async function submit(e) {
   })
 
   await friend_node.map().once(data => {
-    
+
   })
 
   const encryptedMessage = await SEA.encrypt(msg.message, encryptionKey)
-  const secret = await SEA.secret(user2.epub, user1)
-  const encryptedData = await SEA.encrypt(encryptionKey, secret)
+  const secret = await SEA.secret("dX78m5sF3rj2oFC1z1oFqL2sXWXV7NE2PG_8GGyZHO8.P7TMhl_7taPS1W_9UBGJ16FnQEaeFFhPp4_WhirRZ4s", myPair)
+  const encryptedKey = await SEA.encrypt(encryptionKey, secret)
+  msg.key = encryptedKey
+  msg.message = encryptedMessage
 
   // Storing in the database
   messages.set(msg)
@@ -162,12 +165,57 @@ messages.map().once((data, key) => {
 
 // Data (messages) to UI
 async function UI(msg, id) {
+  // const myPair = await SEA.pair()
+  const myPair = user._.sea
+
+  let senderEpub
+  let senderPub
+  await user.get("pub").once(myPub => {
+    senderPub = myPub
+  })
+
+  await friend_node.map().once(data => {
+    if (typeof data.name === "string") {
+      console.log(senderPub)
+      senderEpub = data.epub
+      bool = false
+      return
+    }
+  })
+
+  senderEpub.then(value => {
+    console.log(value)
+  })
+  // console.log()
+
+  // await friend_node.map().once(data => {
+  //   console.log(data)
+  //   if (data.name !== username && typeof data.name === "string") {
+  //     senderEpub = data.epub
+  //   }
+  // })
+
+  const decryptedKey = await SEA.decrypt(
+    msg.key,
+    await SEA.secret("xH7NYbP6iPUcH-Wrct7mv_F7Zoc6-bPtt-7ePdMVZag.tcC6aVvEdx20p-FjaQFB_QSh8tVSs1Q2zomVBdyPMpM", myPair)
+  )
+  
+  const decryptedMessage = await SEA.decrypt(msg.message, decryptedKey)
+
   await user.get("pub").once(myPub => {
     friend_node.map().once(data => {
       if (typeof data.name === "string" && data.pub === myPub) {
-        render(msg.from, msg.message, id)
+        render(msg.from, decryptedMessage, id)
       }
     })
+  })
+}
+
+async function findRightEpub(myPub) {
+  friend_node.map().once(data => {
+    if (typeof data.name === "string" && data.pub !== myPub) {
+      senderEpub = data.epub
+    }
   })
 }
 
