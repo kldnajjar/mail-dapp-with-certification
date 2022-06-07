@@ -1,5 +1,5 @@
 /*
-  This is an old version, main_enc.js is the new one.
+  This is an old version, main.js is the new one.
 */
 
 const gun = Gun("http://localhost:3000/gun")
