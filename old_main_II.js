@@ -1,3 +1,7 @@
+/*
+  This is an old version, main_enc.js is the new one.
+*/
+
 const gun = Gun("http://localhost:3000/gun")
 const user = gun.user().recall({ sessionStorage: true })
 const chat = gun.get("chat")
@@ -131,28 +135,30 @@ async function submit(e) {
     username = alias
   })
 
-  // Encrypting messages
-  // const myPair = await SEA.pair()
-  const myPair = user._.sea
-  
-  let encryptionKey
-  await friend_node.map().once((data, key) => {
-    if (key === "encKey") {
-      encryptionKey = data
+  await friend_node.map().once(data => {
+    console.log(data)
+    if (data.name !== username && typeof data.name === "string") {
+      receiverEncryptedPublicKey = data.epub
+      // console.log(receiverEncryptedPublicKey)
     }
   })
 
-  await friend_node.map().once(data => {
+  // console.log(receiverEncryptedPublicKey)
 
-  })
+  // await users.map().once(data => {
+  //     if (data.name === receiver) {
+  //         receiverEncryptedPublicKey = data.epub
+  //         return
+  //     }
+  // })
 
-  const encryptedMessage = await SEA.encrypt(msg.message, encryptionKey)
-  const secret = await SEA.secret("dX78m5sF3rj2oFC1z1oFqL2sXWXV7NE2PG_8GGyZHO8.P7TMhl_7taPS1W_9UBGJ16FnQEaeFFhPp4_WhirRZ4s", myPair)
-  const encryptedKey = await SEA.encrypt(encryptionKey, secret)
-  msg.key = encryptedKey
-  msg.message = encryptedMessage
-
-  // Storing in the database
+  // The following code is from here: https://github.com/amark/gun/wiki/Snippets
+  const myPair = user._.sea
+  // Encryption
+  // const secret = await SEA.secret("1J6c-2fD6bQh-vllD_mJKGhUIAX8oVLi1P2-V5iLNPc.lioz7Xf1Od8X_b6xz-yjfPqlR4LhK3xXDEd2e6QAYCA", myPair)
+  // const encryptedData = await SEA.encrypt(`${msg.message}`, secret)  // Using secret to encrypt
+  // msg.message = encryptedData
+  // Adding to message to chat node
   messages.set(msg)
 
   $(".message_input").val("").focus()
@@ -165,57 +171,28 @@ messages.map().once((data, key) => {
 
 // Data (messages) to UI
 async function UI(msg, id) {
-  // const myPair = await SEA.pair()
-  const myPair = user._.sea
-
-  let senderEpub
-  let senderPub
-  await user.get("pub").once(myPub => {
-    senderPub = myPub
-  })
-
+  // Finding sender's epub by name
+  let senderEncryptedPublicKey
   await friend_node.map().once(data => {
-    if (typeof data.name === "string") {
-      console.log(senderPub)
-      senderEpub = data.epub
-      bool = false
-      return
+    if (data.name === msg.from) {
+      console.log(senderEncryptedPublicKey)
     }
   })
 
-  senderEpub.then(value => {
-    console.log(value)
-  })
-  // console.log()
+  // console.log(senderEncryptedPublicKey)
 
-  // await friend_node.map().once(data => {
-  //   console.log(data)
-  //   if (data.name !== username && typeof data.name === "string") {
-  //     senderEpub = data.epub
-  //   }
-  // })
+  // The following code is from here: https://github.com/amark/gun/wiki/Snippets
+  const myPair = user._.sea
+  // Decryption
+  // const decryptedData = await decryptFunction(msg.message, "c-OivATczqcfl1mbuYez2bKes7Z2bt-ZvUauYuffVPg.GO1ob-JY56p43m1ht6iI2Rlbc9ViKHlCLwQVWOF99Do", myPair)
 
-  const decryptedKey = await SEA.decrypt(
-    msg.key,
-    await SEA.secret("xH7NYbP6iPUcH-Wrct7mv_F7Zoc6-bPtt-7ePdMVZag.tcC6aVvEdx20p-FjaQFB_QSh8tVSs1Q2zomVBdyPMpM", myPair)
-  )
-  
-  const decryptedMessage = await SEA.decrypt(msg.message, decryptedKey)
-
+  // iterates, only those users who are connected to a friend_node will display the message
   await user.get("pub").once(myPub => {
     friend_node.map().once(data => {
       if (typeof data.name === "string" && data.pub === myPub) {
-        render(msg.from, decryptedMessage, id)
+        render(msg.from, msg.message, id)
       }
     })
-  })
-}
-
-async function findRightEpub(myPub) {
-  friend_node.map().once(data => {
-    if (typeof data.name === "string" && data.pub !== myPub) {
-      senderEpub = data.epub
-    }
   })
 }
 
