@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useGunContext from '../../context/useGunContext';
-import useSessionChannel from '../../hooks/useSessionChannel';
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useGunContext from "../../context/useGunContext";
+import useSessionChannel from "../../hooks/useSessionChannel";
 
+import Header from "../Header";
+import Sidebar from "../Sidebar";
+// import Mail from "../Mail";
+import EmailList from "../EmailList";
 // import styles from './Profile.module.css';
 
 const Profile = () => {
@@ -13,7 +17,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (!getProfile()) {
-      navigate('/sign-in');
+      navigate("/sign-in");
     }
   }, []);
 
@@ -32,29 +36,36 @@ const Profile = () => {
     // user from session storage
     // see https://gun.eco/docs/User#user-leave
     if (user._.sea) {
-      window.sessionStorage.removeItem('pair');
+      window.sessionStorage.removeItem("pair");
     }
 
     // logged out from click, notify other tabs
     if (evt) {
       sessionChannel.postMessage({
-        eventName: 'REMOVE_YOUR_CREDS',
+        eventName: "REMOVE_YOUR_CREDS",
       });
     }
 
     setProfile();
-    pageRedirection('/');
+    pageRedirection("/");
   };
 
   const renderProfile = () => {
     return (
-      <div>
-        <h1>community</h1>
-        <div>
-          logged in as {getProfile().firstName} ({getProfile().email}).{' '}
-          <button onClick={logOut}>Log out</button>
+      // <div>
+      //   <h1>community</h1>
+      //   <div>
+      //     logged in as {getProfile().firstName} ({getProfile().email}).{' '}
+      //     <button onClick={logOut}>Log out</button>
+      //   </div>
+      //   <h2>user profiles</h2>
+      // </div>
+      <div className="app">
+        <Header />
+        <div className="app-body">
+          <Sidebar />
+          <EmailList />
         </div>
-        <h2>user profiles</h2>
       </div>
     );
   };
