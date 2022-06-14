@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -10,10 +10,17 @@ const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
 const SignIn = () => {
   let navigate = useNavigate();
-  const { getGun, getUser, setProfile } = useGunContext();
+  const { getGun, getUser } = useGunContext();
+  const profile = JSON.parse(sessionStorage.getItem("profile"));
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (profile) {
+      pageRedirection("/profile");
+    }
+  }, []);
 
   const pageRedirection = (page) => {
     navigate(page, { replace: true });
@@ -39,8 +46,8 @@ const SignIn = () => {
         .get(`~${APP_PUBLIC_KEY}`)
         .get("profiles")
         .get(getUser().is.pub)
-        .on((profile) => {
-          setProfile(profile);
+        .on((userProfile) => {
+          sessionStorage.setItem("profile", JSON.stringify(userProfile));
           toast.success("User Logged");
           pageRedirection("/profile");
         });

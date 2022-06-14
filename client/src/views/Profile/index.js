@@ -13,10 +13,11 @@ const Profile = () => {
   let navigate = useNavigate();
   const sessionChannel = useSessionChannel();
 
-  const { getProfile, setProfile, getUser, setCertificate } = useGunContext();
+  const { getUser, setCertificate } = useGunContext();
+  const profile = JSON.parse(sessionStorage.getItem("profile"));
 
   useEffect(() => {
-    if (!getProfile()) {
+    if (!profile) {
       navigate("/sign-in");
     }
   }, []);
@@ -46,7 +47,7 @@ const Profile = () => {
       });
     }
 
-    setProfile();
+    sessionStorage.removeItem("profile");
     pageRedirection("/");
   };
 
@@ -70,7 +71,7 @@ const Profile = () => {
     );
   };
 
-  return <>{getProfile() ? renderProfile() : null}</>;
+  return <>{profile ? renderProfile() : null}</>;
 };
 
 export default Profile;

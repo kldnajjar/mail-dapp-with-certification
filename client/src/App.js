@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import Navigator from './Navigator';
-import { ToastContainer } from 'react-toastify';
+import Navigator from "./Navigator";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (

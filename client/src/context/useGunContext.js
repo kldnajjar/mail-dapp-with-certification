@@ -27,8 +27,6 @@ const GunContext = createContext({
   getUser: () => {},
   getCertificate: () => {},
   setCertificate: () => {},
-  getProfile: () => {},
-  setProfile: () => {},
   onAuth: () => () => {},
 });
 
@@ -38,7 +36,6 @@ export const GunContextProvider = ({ children }) => {
   const certificateRef = useRef();
   const accessTokenRef = useRef();
   const onAuthCbRef = useRef();
-  const profileRef = useRef();
 
   useEffect(() => {
     Gun.on("opt", (ctx) => {
@@ -136,10 +133,6 @@ export const GunContextProvider = ({ children }) => {
         onAuth: (cb) => {
           onAuthCbRef.current = cb;
         },
-        setProfile: (p) => {
-          profileRef.current = p;
-        },
-        getProfile: () => profileRef.current,
       }}
     >
       {children}

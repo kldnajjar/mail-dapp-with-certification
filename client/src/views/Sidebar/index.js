@@ -20,7 +20,7 @@ import styles from "./Sidebar.module.css";
 // import useGunContext from '../../context/useGunContext';
 
 function Sidebar() {
-  // const { getGun, getUser, setProfile } = useGunContext();
+  // const { getGun, getUser } = useGunContext();
   const dispatch = useDispatch();
 
   return (
