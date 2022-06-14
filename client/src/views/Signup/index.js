@@ -40,7 +40,7 @@ const SignUp = () => {
               console.log(`Error: creating user: ${err}`);
               toast.error(err);
             } else {
-              console.log(`Start creating user`);
+              console.log(`Start creating user`, pub);
               onCreateSuccess({ pub });
             }
           });
