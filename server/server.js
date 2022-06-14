@@ -1,14 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const jwt = require('jsonwebtoken');
-let Gun = require('gun');
-const SEA = require('gun/sea');
-const corsOptions = require('./src/configs/corsOrigin/corsOptions');
+const express = require("express");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
+let Gun = require("gun");
+const SEA = require("gun/sea");
+const corsOptions = require("./src/configs/corsOrigin/corsOptions");
 
 // implements forked version of bullet catcher with
 // additional error handling
-require('bullet-catcher');
-require('dotenv').config();
+require("bullet-catcher");
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 8765;
@@ -29,9 +29,9 @@ function verifyToken(msg) {
 
       return true;
     } catch (err) {
-      const error = new Error('Invalid access token');
+      const error = new Error("Invalid access token");
 
-      if (err.name === 'TokenExpiredError') {
+      if (err.name === "TokenExpiredError") {
         // you might want to implement silent refresh here
         error.expiredAt = err.expiredAt;
       }
@@ -45,11 +45,12 @@ function verifyToken(msg) {
 
 const gun = Gun({
   web: server,
+  peers: ["https://mykmail-server-eu.herokuapp.com/"],
   isValid: verifyToken,
 });
 
 // Sync everything
-gun.on('out', { get: { '#': { '*': '' } } });
+gun.on("out", { get: { "#": { "*": "" } } });
 
 // Authorize this app as a user
 gun.user().auth(APP_KEY_PAIR, ({ err }) => {
@@ -69,7 +70,7 @@ app.use(express.json());
 // To allow enable CORS POLICY for the Origin
 app.use(cors(corsOptions));
 
-app.post('/api/certificates', async (req, res) => {
+app.post("/api/certificates", async (req, res) => {
   const { email, pub: userPubKey } = req.body;
 
   // See https://gun.eco/docs/SEA.certify for policies
@@ -80,7 +81,7 @@ app.post('/api/certificates', async (req, res) => {
     //     .get('profiles')
     //     .get(user.pub)
     //     .put({ name: 'alice' }, null, {opt: { cert: certificate }} )
-    { '*': 'profiles', '+': '*' },
+    { "*": "profiles", "+": "*" },
   ];
 
   // expire in 2 hours
@@ -114,11 +115,11 @@ app.post('/api/certificates', async (req, res) => {
   });
 });
 
-app.post('/api/tokens', async (req, res) => {
+app.post("/api/tokens", async (req, res) => {
   const { username, pub } = req.body;
 
   const token = jwt.sign({ username, pub }, APP_TOKEN_SECRET, {
-    expiresIn: '1h',
+    expiresIn: "1h",
   });
 
   res.status(201).send({
