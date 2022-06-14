@@ -45,7 +45,16 @@ function verifyToken(msg) {
 
 const gun = Gun({
   web: server,
-  peers: ["https://mykmail-server-eu.herokuapp.com/"],
+  peers: [
+    "https://mykmail-server-usa.herokuapp.com/",
+    "https://mykmail-server-eu.herokuapp.com/",
+  ],
+  verify: {
+    check: function () {
+      console.log("PEER CONNECTED!!");
+      return true;
+    },
+  },
   isValid: verifyToken,
 });
 
