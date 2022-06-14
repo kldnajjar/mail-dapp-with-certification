@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import 'gun/sea';
 
 import { useNavigate } from 'react-router-dom';
 import useGunContext from '../../context/useGunContext';
@@ -40,7 +41,7 @@ const SignUp = () => {
               console.log(`Error: creating user: ${err}`);
               toast.error(err);
             } else {
-              console.log(`Start creating user`);
+              console.log(`Start creating user`, pub);
               onCreateSuccess({ pub });
             }
           });

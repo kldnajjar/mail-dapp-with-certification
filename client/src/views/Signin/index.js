@@ -31,10 +31,19 @@ const SignIn = () => {
         .get(`~${APP_PUBLIC_KEY}`)
         .get('profiles')
         .get(getUser().is.pub)
+        .put({
+          epub: "this is epub"
+        })
+      
+      getGun()
+        .get(`~${APP_PUBLIC_KEY}`)
+        .get('profiles')
+        .get(getUser().is.pub)
         .on((profile) => {
           setProfile(profile);
           toast.success('User Logged');
           pageRedirection('/profile');
+          console.log(profile)
         });
     });
   };
