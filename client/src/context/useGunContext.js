@@ -18,9 +18,9 @@
  *   getGun().get('ours').put('this')
  *   getUser().get('mine').put('that')
  */
-import React, { createContext, useContext, useRef, useEffect } from 'react';
-import Gun from 'gun/gun';
-import 'gun/sea';
+import React, { createContext, useContext, useRef, useEffect } from "react";
+import Gun from "gun/gun";
+import "gun/sea";
 
 const GunContext = createContext({
   getGun: () => {},
@@ -41,10 +41,10 @@ export const GunContextProvider = ({ children }) => {
   const profileRef = useRef();
 
   useEffect(() => {
-    Gun.on('opt', (ctx) => {
+    Gun.on("opt", (ctx) => {
       if (ctx.once) return;
 
-      ctx.on('out', function (msg) {
+      ctx.on("out", function (msg) {
         const to = this.to;
         // Adds headers for put
         msg.headers = {
@@ -52,7 +52,7 @@ export const GunContextProvider = ({ children }) => {
         };
         to.next(msg); // pass to next middleware
 
-        if (msg.err === 'Invalid access token') {
+        if (msg.err === "Invalid access token") {
           // not implemented: handle invalid access token
           // you might want to do a silent refresh, or
           // redirect the user to a log in page
@@ -60,7 +60,7 @@ export const GunContextProvider = ({ children }) => {
       });
     });
 
-    const gun = Gun(['http://localhost:8765/gun']);
+    const gun = Gun(process.env.APP_PEERS);
 
     // create user
     const user = gun
@@ -70,14 +70,14 @@ export const GunContextProvider = ({ children }) => {
       // use broadcast channels to sync between tabs
       .recall({ sessionStorage: true });
 
-    gun.on('auth', (...args) => {
+    gun.on("auth", (...args) => {
       if (!accessTokenRef.current) {
         // get new token
-        user.get('alias').once((username) => {
-          fetch('http://localhost:8765/api/tokens', {
-            method: 'POST',
+        user.get("alias").once((username) => {
+          fetch(`${process.env.REACT_APP_URL}/tokens`, {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               username,
@@ -94,11 +94,11 @@ export const GunContextProvider = ({ children }) => {
 
       if (!certificateRef.current) {
         // get new certificate
-        user.get('alias').once((username) => {
-          fetch('http://localhost:8765/api/certificates', {
-            method: 'POST',
+        user.get("alias").once((username) => {
+          fetch(`${process.env.REACT_APP_URL}/certificates`, {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               username,

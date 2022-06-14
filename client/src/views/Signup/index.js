@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { useNavigate } from 'react-router-dom';
-import useGunContext from '../../context/useGunContext';
-import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+import useGunContext from "../../context/useGunContext";
+import { toast } from "react-toastify";
 
-import styles from './Signup.module.css';
-import Input from '../../components/input';
+import styles from "./Signup.module.css";
+import Input from "../../components/input";
 
 const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
@@ -16,13 +16,13 @@ const SignUp = () => {
   // const users = getGun().get('users');
   // const user = getUser().recall({ sessionStorage: true });
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const pageRedirection = () => {
-    navigate('/sign-in', { replace: true });
+    navigate("/sign-in", { replace: true });
   };
 
   const handleSubmit = (event) => {
@@ -33,7 +33,7 @@ const SignUp = () => {
       .get(`~@${email}`)
       .once((user) => {
         if (user) {
-          toast.error('Email already taken');
+          toast.error("Email already taken");
         } else {
           getUser().create(email, password, ({ err, pub }) => {
             if (err) {
@@ -50,10 +50,10 @@ const SignUp = () => {
 
   const onCreateSuccess = ({ pub }) => {
     // get certificate and store in app memory
-    fetch(`${process.env.react_app_url}/certificates`, {
-      method: 'POST',
+    fetch(`${process.env.REACT_APP_URL}/certificates`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email,
@@ -67,14 +67,14 @@ const SignUp = () => {
         // add user to user/profile list
         getGun()
           .get(`~${APP_PUBLIC_KEY}`)
-          .get('profiles')
+          .get("profiles")
           .get(pub)
           .put({ email, firstName, lastName }, null, {
             opt: { cert: certificate },
           });
 
-        toast.success('User created');
-        navigate('/sign-in', { replace: true });
+        toast.success("User created");
+        navigate("/sign-in", { replace: true });
       });
   };
 

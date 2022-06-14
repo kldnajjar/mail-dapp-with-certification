@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import useGunContext from '../../context/useGunContext';
-import Input from '../../components/input';
-import styles from './Signin.module.css';
+import useGunContext from "../../context/useGunContext";
+import Input from "../../components/input";
+import styles from "./Signin.module.css";
 
 const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
@@ -12,8 +12,8 @@ const SignIn = () => {
   let navigate = useNavigate();
   const { getGun, getUser, setProfile } = useGunContext();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const pageRedirection = (page) => {
     navigate(page, { replace: true });
@@ -29,12 +29,12 @@ const SignIn = () => {
 
       getGun()
         .get(`~${APP_PUBLIC_KEY}`)
-        .get('profiles')
+        .get("profiles")
         .get(getUser().is.pub)
         .on((profile) => {
           setProfile(profile);
-          toast.success('User Logged');
-          pageRedirection('/profile');
+          toast.success("User Logged");
+          pageRedirection("/profile");
         });
     });
   };
@@ -67,7 +67,7 @@ const SignIn = () => {
         </div>
         <div className="footer-container">
           Don't have an account
-          <button className="link " onClick={() => pageRedirection('/sign-up')}>
+          <button className="link " onClick={() => pageRedirection("/sign-up")}>
             register
           </button>
         </div>

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import useGunContext from '../context/useGunContext';
+import useGunContext from "../context/useGunContext";
 
 const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
 export default function Login() {
   const { getGun, getUser, setCertificate } = useGunContext();
-  const [username, setUsername] = useState('demo');
-  const [password, setPassword] = useState('password');
+  const [username, setUsername] = useState("demo");
+  const [password, setPassword] = useState("password");
   const [authError, setAuthError] = useState();
 
   const logIn = () => {
@@ -20,10 +20,10 @@ export default function Login() {
 
   const onCreateSuccess = ({ pub }) => {
     // get certificate and store in app memory
-    fetch('http://localhost:8765/api/certificates', {
-      method: 'POST',
+    fetch(`${process.env.REACT_APP_URL}/certificates`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username,
@@ -37,7 +37,7 @@ export default function Login() {
         // add user to user/profile list
         getGun()
           .get(`~${APP_PUBLIC_KEY}`)
-          .get('profiles')
+          .get("profiles")
           .get(pub)
           .put({ username }, null, {
             opt: { cert: certificate },
@@ -63,7 +63,7 @@ export default function Login() {
       .get(`~@${username}`)
       .once((user) => {
         if (user) {
-          setAuthError('Username already taken');
+          setAuthError("Username already taken");
         } else {
           getUser().create(username, password, ({ err, pub }) => {
             if (err) {
@@ -102,7 +102,7 @@ export default function Login() {
           </label>
         </div>
 
-        {authError && <div style={{ color: 'red' }}>{authError}</div>}
+        {authError && <div style={{ color: "red" }}>{authError}</div>}
 
         <div>
           <button type="submit">sign in</button>
