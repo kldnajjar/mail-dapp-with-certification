@@ -98,3 +98,14 @@ async function getCurrentUserEmail(getUser) {
     return user.email
   })
 }
+
+// let email = {
+//   subject: "",
+//   sender: "",
+//   recipient: "",
+//   body: "",
+//   key: "",
+//   cc: [],
+//   bcc: [],
+//   keys: []
+// }
