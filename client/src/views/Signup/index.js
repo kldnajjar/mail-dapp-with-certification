@@ -50,7 +50,7 @@ const SignUp = () => {
 
   const onCreateSuccess = ({ pub }) => {
     // get certificate and store in app memory
-    fetch(`${process.env.REACT_APP_URL}/certificates`, {
+    fetch(`${process.env.API_URL}/certificates`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

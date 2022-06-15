@@ -72,7 +72,7 @@ export const GunContextProvider = ({ children }) => {
       if (!accessTokenRef.current) {
         // get new token
         user.get("alias").once((username) => {
-          fetch(`${process.env.REACT_APP_URL}/tokens`, {
+          fetch(`${process.env.API_URL}/tokens`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export const GunContextProvider = ({ children }) => {
       if (!certificateRef.current) {
         // get new certificate
         user.get("alias").once((username) => {
-          fetch(`${process.env.REACT_APP_URL}/certificates`, {
+          fetch(`${process.env.API_URL}/certificates`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
