@@ -9,8 +9,8 @@ function SidebarOption({ Icon, title, number, selected }) {
       }`}
     >
       <Icon />
-      <h3>{title}</h3>
-      <p>{number}</p>
+      <h3 className="mb-0">{title}</h3>
+      <p className="mb-0">{number}</p>
     </div>
   );
 }

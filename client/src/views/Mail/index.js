@@ -26,7 +26,7 @@ function Mail() {
     <div className={styles.mail}>
       <div className={styles["mail-tools"]}>
         <div className={styles["mail-toolsLeft"]}>
-          <IconButton onClick={() => navigate("/")}>
+          <IconButton onClick={() => navigate("/profile")}>
             <ArrowBackIcon />
           </IconButton>
 

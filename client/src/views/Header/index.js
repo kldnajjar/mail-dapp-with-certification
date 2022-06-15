@@ -10,8 +10,8 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, logout } from "../../features/userSlice";
 import { useNavigate } from "react-router-dom";
+import logo from "../../aseets/logo.png";
 import styles from "./Header.module.css";
-// import { auth } from "../../firebase.js";
 
 function Header() {
   const user = useSelector(selectUser);
@@ -19,9 +19,6 @@ function Header() {
   const dispatch = useDispatch();
 
   const signOut = () => {
-    // auth.signOut().then(() => {
-    //   dispatch(logout());
-    // });
     sessionStorage.removeItem("profile");
     dispatch(logout());
     navigate("/");
@@ -33,10 +30,7 @@ function Header() {
         <IconButton>
           <MenuIcon />
         </IconButton>
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzRceIIBz4GgeNszaN5SupI6p1SJE_Bzgk3Q&usqp=CAU"
-          alt="gmail logo"
-        />
+        <img src={logo} alt="mykloud logo" />
       </div>
       <div className={styles["header-middle"]}>
         <SearchIcon />

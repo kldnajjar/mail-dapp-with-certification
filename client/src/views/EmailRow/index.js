@@ -35,7 +35,7 @@ function EmailRow({ id, title, subject, description, time }) {
           <LabelImportantOutlinedIcon />
         </IconButton>
       </div>
-      <h3 className={styles["emailRow-title"]}>{title}</h3>
+      <h3 className={`${styles["emailRow-title"]} mb-0`}>{title}</h3>
       <div className={styles["emailRow-message"]}>
         <h4>
           {subject}{" "}
@@ -45,7 +45,7 @@ function EmailRow({ id, title, subject, description, time }) {
           </span>
         </h4>
       </div>
-      <p className={styles["emailRow-time"]}>{time}</p>
+      <p className={`${styles["emailRow-time"]} mb-0`}>{time}</p>
     </div>
   );
 }

@@ -61,11 +61,11 @@ function EmailList() {
           </IconButton>
         </div>
       </div>
-      <div className={styles["emailList-sections"]}>
+      {/* <div className={styles["emailList-sections"]}>
         <Section Icon={InboxIcon} title="Primary" color="red" selected />
         <Section Icon={PeopleIcon} title="Social" color="#1A73E8" />
         <Section Icon={LocalOfferIcon} title="Promotions" color="green" />
-      </div>
+      </div> */}
 
       <div className={styles["emailList-list"]}>
         {emails.map(({ id, data: { to, subject, message, timestamp } }) => (
