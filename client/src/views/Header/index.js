@@ -6,19 +6,25 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AppsIcon from "@material-ui/icons/Apps";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, logout } from "../../features/userSlice";
+import { useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 // import { auth } from "../../firebase.js";
 
 function Header() {
   const user = useSelector(selectUser);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const signOut = () => {
     // auth.signOut().then(() => {
     //   dispatch(logout());
     // });
+    sessionStorage.removeItem("profile");
+    dispatch(logout());
+    navigate("/");
   };
 
   return (
@@ -38,6 +44,9 @@ function Header() {
         <ArrowDropDownIcon className={styles["header-inputCaret"]} />
       </div>
       <div className={styles["header-right"]}>
+        <IconButton onClick={signOut}>
+          <ExitToAppIcon />
+        </IconButton>
         <IconButton>
           <HelpOutlineIcon />
         </IconButton>
