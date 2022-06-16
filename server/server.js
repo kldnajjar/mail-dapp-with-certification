@@ -36,10 +36,12 @@ function verifyToken(msg) {
         error.expiredAt = err.expiredAt;
       }
 
+      console.log("Incorrect Token", error);
       return error;
     }
   }
 
+  console.log("Token object is missing");
   return false;
 }
 
@@ -96,7 +98,7 @@ app.post("/api/certificates", async (req, res) => {
   // expire in 2 hours
   const expiresAt = Date.now() + 60 * 60 * 1000 * 2;
 
-  if (!email) return;
+  // if (!email) return;
 
   const certificate = await SEA.certify(
     [userPubKey],
