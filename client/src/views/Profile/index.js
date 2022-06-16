@@ -61,11 +61,12 @@ const Profile = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const userPub = getUser().is.pub;
 
     getGun()
       .get(`~${APP_PUBLIC_KEY}`)
       .get("profiles")
-      .get(getUser().is.pub)
+      .get(userPub)
       .put(
         { firstName: firstName },
         ({ err }) => {

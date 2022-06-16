@@ -11,7 +11,7 @@ const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
 const SignUp = () => {
   let navigate = useNavigate();
-  const { getGun, getUser, setCertificate } = useGunContext();
+  const { getGun, getUser, getCertificate, setCertificate } = useGunContext();
 
   // const users = getGun().get('users');
   // const user = getUser().recall({ sessionStorage: true });
@@ -40,7 +40,6 @@ const SignUp = () => {
               console.log(`Error: creating user: ${err}`);
               toast.error(err);
             } else {
-              console.log(`Start creating user`, pub);
               onCreateSuccess({ pub });
             }
           });
@@ -63,19 +62,33 @@ const SignUp = () => {
       .then((resp) => resp.json())
       .then(({ certificate }) => {
         setCertificate(certificate);
-
-        // add user to user/profile list
-        getGun()
-          .get(`~${APP_PUBLIC_KEY}`)
-          .get("profiles")
-          .get(pub)
-          .put({ email, firstName, lastName }, null, {
-            opt: { cert: certificate },
-          });
-
-        toast.success("User created");
-        navigate("/sign-in", { replace: true });
+        registerNewUser(pub, certificate);
       });
+  };
+
+  const registerNewUser = (pub, certificate) => {
+    // add user to user/profile list
+    getGun()
+      .get(`~${APP_PUBLIC_KEY}`)
+      .get("profiles")
+      .get(pub)
+      .put(
+        { email, firstName, lastName },
+        ({ err }) => {
+          console.log("Registration in progress");
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Successfully registered ${email}`);
+          }
+        },
+        {
+          opt: { cert: certificate },
+        }
+      );
+
+    toast.success("User created");
+    navigate("/sign-in", { replace: true });
   };
 
   return (
