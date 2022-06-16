@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useGunContext from "../../context/useGunContext";
 import useSessionChannel from "../../hooks/useSessionChannel";
@@ -9,17 +9,25 @@ import Sidebar from "../Sidebar";
 import EmailList from "../EmailList";
 // import styles from './Profile.module.css';
 
+import Input from "../../components/input";
+
+const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
+
 const Profile = () => {
+  const [firstName, setFirstName] = useState("");
+
   let navigate = useNavigate();
   const sessionChannel = useSessionChannel();
 
-  const { getUser, setCertificate } = useGunContext();
+  const { getGun, getUser, getCertificate, setCertificate } = useGunContext();
   const profile = JSON.parse(sessionStorage.getItem("profile"));
 
   useEffect(() => {
     if (!profile) {
-      navigate("/sign-in");
+      return navigate("/sign-in");
     }
+
+    setFirstName(profile.firstName);
   }, []);
 
   const pageRedirection = (page) => {
@@ -51,6 +59,28 @@ const Profile = () => {
     pageRedirection("/");
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    getGun()
+      .get(`~${APP_PUBLIC_KEY}`)
+      .get("profiles")
+      .get(getUser().is.pub)
+      .put(
+        { firstName: firstName },
+        ({ err }) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Successfully changed display name to ${firstName}`);
+          }
+        },
+        {
+          opt: { cert: getCertificate() },
+        }
+      );
+  };
+
   const renderProfile = () => {
     return (
       // <div>
@@ -67,6 +97,24 @@ const Profile = () => {
           <Sidebar />
           <EmailList />
         </div>
+
+        <form onSubmit={handleSubmit}>
+          <h3>profile</h3>
+
+          <Input
+            type="text"
+            label="First Name"
+            placeholder="Change your First Name"
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+          />
+
+          <div className="d-grid">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     );
   };
