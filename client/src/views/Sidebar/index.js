@@ -16,17 +16,37 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { openSendMessage } from "../../features/mailSlice";
 import styles from "./Sidebar.module.css";
-// import useGunContext from '../../context/useGunContext';
+import useGunContext from '../../context/useGunContext';
+import { encryption } from '../../util/privacy';
 
 function Sidebar() {
-  // const { getGun, getUser } = useGunContext();
+  const { getGun, getUser } = useGunContext();
   const dispatch = useDispatch();
+
+  let email = {
+    subject: "Hey",
+    sender: "tsar@zhuk.com",
+    recipient: "suleiman@zhukov.com",
+    body: "Hello, tsar",
+    key: "",
+    cc: {},
+    bcc: {},
+    keys: {}
+  }
+
+  async function onCompose(e) {
+    e.preventDefault();
+    const newEmail = await encryption(email, getGun, getUser);
+    getGun().get("mail-list").set(newEmail)
+    console.log(newEmail);
+  }
 
   return (
     <div className={styles.sidebar}>
       <Button
         className={styles["sidebar-compose"]}
-        onClick={() => dispatch(openSendMessage())}
+        // onClick={() => dispatch(openSendMessage())}
+        onClick={onCompose}
         startIcon={<AddIcon fontSize="large" />}
       >
         Compose
