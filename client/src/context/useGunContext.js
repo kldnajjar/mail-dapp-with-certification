@@ -57,7 +57,7 @@ export const GunContextProvider = ({ children }) => {
       });
     });
 
-    const gun = Gun(process.env.APP_PEERS);
+    const gun = Gun(process.env.APP_PEERS.split(","));
     window.gun = gun;
 
     // create user
