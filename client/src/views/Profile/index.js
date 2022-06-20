@@ -17,7 +17,7 @@ const Profile = () => {
 
   let navigate = useNavigate();
 
-  const { getGun, getUser, getCertificate, setCertificate } = useGunContext();
+  const { getGun, getUser, getCertificate } = useGunContext();
   const profile = JSON.parse(sessionStorage.getItem("profile"));
 
   useEffect(() => {
