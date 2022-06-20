@@ -6,11 +6,9 @@ import useGunContext from "../../context/useGunContext";
 import Input from "../../components/input";
 import styles from "./Signin.module.css";
 
-const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
-
 const SignIn = () => {
   let navigate = useNavigate();
-  const { getGun, getUser } = useGunContext();
+  const { getUser } = useGunContext();
   const profile = JSON.parse(sessionStorage.getItem("profile"));
 
   const [email, setEmail] = useState("");
@@ -33,16 +31,6 @@ const SignIn = () => {
       if (err) {
         return toast.error(err);
       }
-
-      getGun()
-        .get(`~${APP_PUBLIC_KEY}`)
-        .get("profiles")
-        .get(getUser().is.pub)
-        .on((userProfile) => {
-          sessionStorage.setItem("profile", JSON.stringify(userProfile));
-          toast.success("User Logged");
-          pageRedirection("/profile");
-        });
     });
   };
 

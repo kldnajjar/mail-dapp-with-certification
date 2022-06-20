@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import Navigator from "./Navigator";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import useSessionChannel from "./hooks/useSessionChannel";
 import useGunContext from "./context/useGunContext";
@@ -10,6 +11,7 @@ const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 const App = () => {
   const { getGun, getUser, onAuth } = useGunContext();
   const sessionChannel = useSessionChannel();
+  let navigate = useNavigate();
 
   useEffect(() => {
     onAuth(() => {
@@ -26,6 +28,8 @@ const App = () => {
         .on((profile) => {
           // setUserProfile(profile);
           console.log("User profile", profile);
+          sessionStorage.setItem("profile", JSON.stringify(userProfile));
+          pageRedirection("/profile");
         });
     });
 
@@ -37,6 +41,10 @@ const App = () => {
       }
     });
   }, []);
+
+  const pageRedirection = (page) => {
+    navigate(page, { replace: true });
+  };
 
   return (
     <>
