@@ -15,11 +15,28 @@ import styles from "./Header.module.css";
 
 function Header() {
   const user = useSelector(selectUser);
+  const { getUser, setCertificate, onAuth } = useGunContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const signOut = () => {
+  const signOut = (evt) => {
     sessionStorage.removeItem("profile");
+    setCertificate(null);
+
+    const current_user = getUser();
+    current_user.leave();
+
+    if (current_user._.sea) {
+      window.sessionStorage.removeItem("pair");
+    }
+
+    // logged out from click, notify other tabs
+    if (evt) {
+      sessionChannel.postMessage({
+        eventName: "REMOVE_YOUR_CREDS",
+      });
+    }
+
     dispatch(logout());
     navigate("/");
   };
