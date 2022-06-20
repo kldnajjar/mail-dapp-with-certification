@@ -11,12 +11,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUser, logout } from "../../features/userSlice";
 import { useNavigate } from "react-router-dom";
 import useGunContext from "../../context/useGunContext";
+import useSessionChannel from "../../hooks/useSessionChannel";
 import logo from "../../aseets/logo.png";
 import styles from "./Header.module.css";
 
 function Header() {
   const user = useSelector(selectUser);
   const { getUser, setCertificate } = useGunContext();
+  const sessionChannel = useSessionChannel();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

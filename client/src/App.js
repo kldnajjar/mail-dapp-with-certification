@@ -35,9 +35,9 @@ const App = () => {
 
     sessionChannel.onMessage((e) => {
       const { eventName } = e.data;
-      console.log(eventName);
+      console.log("EventName", eventName);
       if (eventName === "REMOVE_YOUR_CREDS") {
-        alert("REMOVE_YOUR_CREDS");
+        console.log("Logged out");
       }
     });
   }, []);
