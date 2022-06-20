@@ -11,10 +11,7 @@ const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
 const SignUp = () => {
   let navigate = useNavigate();
-  const { getGun, getUser, getCertificate, setCertificate } = useGunContext();
-
-  // const users = getGun().get('users');
-  // const user = getUser().recall({ sessionStorage: true });
+  const { getGun, getUser, setCertificate } = useGunContext();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -31,7 +28,6 @@ const SignUp = () => {
     // check if user with email already exists
     getGun()
       .get(`~@${email}`)
-      .put({})
       .once((user) => {
         if (user) {
           toast.error("Email already taken");
@@ -73,20 +69,9 @@ const SignUp = () => {
       .get(`~${APP_PUBLIC_KEY}`)
       .get("profiles")
       .get(pub)
-      .put(
-        { email, firstName, lastName },
-        ({ err }) => {
-          console.log("Registration in progress");
-          if (err) {
-            console.log(err);
-          } else {
-            console.log(`Successfully registered ${email}`);
-          }
-        },
-        {
-          opt: { cert: certificate },
-        }
-      );
+      .put({ email, firstName, lastName }, null, {
+        opt: { cert: certificate },
+      });
 
     toast.success("User created");
     navigate("/sign-in", { replace: true });
