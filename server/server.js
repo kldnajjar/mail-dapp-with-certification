@@ -26,6 +26,7 @@ function verifyToken(msg) {
   if (msg?.headers?.accessToken) {
     try {
       jwt.verify(msg.headers.accessToken, APP_TOKEN_SECRET);
+      console.log("valid token");
 
       return true;
     } catch (err) {

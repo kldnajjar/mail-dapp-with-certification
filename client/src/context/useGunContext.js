@@ -58,8 +58,8 @@ export const GunContextProvider = ({ children }) => {
       });
     });
 
-    // const gun = Gun(process.env.APP_PEERS.split(","));
-    const gun = Gun(["http://localhost:8765/gun"]);
+    const gun = Gun(process.env.APP_PEERS.split(","));
+    // const gun = Gun(["http://localhost:8765/gun"]);
     window.gun = gun;
 
     // create user
