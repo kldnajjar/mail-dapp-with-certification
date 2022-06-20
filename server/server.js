@@ -41,7 +41,7 @@ function verifyToken(msg) {
     }
   }
 
-  console.log("Token object is missing");
+  // console.log("Token object is missing");
   return false;
 }
 
@@ -76,9 +76,6 @@ app.use(express.json());
 
 // if you're allowing gun access to more than one http origin,
 // you'll want to make sure that CORs for API routes is configured
-//  app.use(cors())
-
-// To allow enable CORS POLICY for the Origin
 app.use(cors(corsOptions));
 
 app.post("/api/certificates", async (req, res) => {
@@ -127,9 +124,9 @@ app.post("/api/certificates", async (req, res) => {
 });
 
 app.post("/api/tokens", async (req, res) => {
-  const { username, pub } = req.body;
+  const { email, pub } = req.body;
 
-  const token = jwt.sign({ username, pub }, APP_TOKEN_SECRET, {
+  const token = jwt.sign({ email, pub }, APP_TOKEN_SECRET, {
     expiresIn: "1h",
   });
 

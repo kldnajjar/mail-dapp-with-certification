@@ -31,6 +31,7 @@ const SignUp = () => {
     // check if user with email already exists
     getGun()
       .get(`~@${email}`)
+      .put({})
       .once((user) => {
         if (user) {
           toast.error("Email already taken");

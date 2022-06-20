@@ -71,14 +71,14 @@ export const GunContextProvider = ({ children }) => {
     gun.on("auth", (...args) => {
       if (!accessTokenRef.current) {
         // get new token
-        user.get("alias").once((username) => {
+        user.get("alias").once((email) => {
           fetch(`${process.env.API_URL}/tokens`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              username,
+              email,
               pub: user.is.pub,
             }),
           })
@@ -92,14 +92,14 @@ export const GunContextProvider = ({ children }) => {
 
       if (!certificateRef.current) {
         // get new certificate
-        user.get("alias").once((username) => {
+        user.get("alias").once((email) => {
           fetch(`${process.env.API_URL}/certificates`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              username,
+              email,
               pub: user.is.pub,
             }),
           })
