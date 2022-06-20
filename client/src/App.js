@@ -28,7 +28,7 @@ const App = () => {
         .on((profile) => {
           // setUserProfile(profile);
           console.log("User profile", profile);
-          sessionStorage.setItem("profile", JSON.stringify(userProfile));
+          sessionStorage.setItem("profile", JSON.stringify(profile));
           pageRedirection("/profile");
         });
     });

@@ -10,12 +10,13 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, logout } from "../../features/userSlice";
 import { useNavigate } from "react-router-dom";
+import useGunContext from "../../context/useGunContext";
 import logo from "../../aseets/logo.png";
 import styles from "./Header.module.css";
 
 function Header() {
   const user = useSelector(selectUser);
-  const { getUser, setCertificate, onAuth } = useGunContext();
+  const { getUser, setCertificate } = useGunContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
