@@ -15,46 +15,25 @@ import EmailRow from "../EmailRow";
 import styles from "./EmailList.module.css";
 import useGunContext from '../../context/useGunContext';
 import { decryption } from "../../util/privacy"
-import "gun/lib/load";
 import "gun/sea";
 // import { db } from "../../firebase";
 
-const loop = async (getMails) => {
-  // console.log("inside")
-  getMails().once(mail => {
-    console.log("inside .map()")
-    return mail
-  })
-}
-
-const loopThrough = async (getUser, getMails) => {
-  console.log("inside")
-  let counter = 0
+const loopThrough = async (getGun, getUser, getMails) => {
   await getUser().get("pub").once(async myPub => {
-    const maillist = getMails()
-    console.log(myPub)
-    console.log(++counter)
-    maillist.map().once(mail => {
-      console.log("In once")
-      console.log(mail)
+    getMails().map().once(async mail => {
+      console.log("inside getMails.map().once(cb)")
+      const newMail = await decryption(mail, getGun, getUser)
+      console.log(newMail)
     })
-  })
-}
-
-const emailsList = async (mails) => {
-  console.log("inside the function")
-  const maillist = mails()
-  await maillist.map().once(mail => {
-    console.log(mail)
   })
 }
 
 function EmailList() {
   const [emails, setEmails] = useState([]);
-  const { getUser, getMails } = useGunContext();
+  const { getGun, getUser, getMails } = useGunContext();
 
   console.log("before")
-  loopThrough(getUser, getMails)
+  loopThrough(getGun, getUser, getMails)
   console.log("after")
 
   useEffect(() => {
@@ -109,7 +88,7 @@ function EmailList() {
    
    
    
-      {/* <div className={styles["emailList-list"]}>
+      <div className={styles["emailList-list"]}>
         {emails.map(({ id, data: { to, subject, message, timestamp } }) => (
           <EmailRow
             id={id}
@@ -126,7 +105,7 @@ function EmailList() {
           description="This is a DOPE"
           time="10pm"
         />
-      </div> */}
+      </div>
     </div>
   );
 }

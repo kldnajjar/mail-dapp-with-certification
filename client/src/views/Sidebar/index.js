@@ -28,10 +28,7 @@ function Sidebar() {
     sender: "tsar@zhuk.com",
     recipient: "suleiman@zhukov.com",
     body: "Hello, tsar",
-    key: "",
-    cc: {},
-    bcc: {},
-    keys: {}
+    key: ""
   }
 
   async function onCompose(e) {

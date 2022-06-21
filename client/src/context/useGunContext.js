@@ -21,6 +21,7 @@
 import React, { createContext, useContext, useRef, useEffect } from "react";
 import Gun from "gun/gun";
 import "gun/sea";
+const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
 const GunContext = createContext({
   getGun: () => {},
@@ -122,7 +123,7 @@ export const GunContextProvider = ({ children }) => {
       }
     });
 
-    const mails = gun.get("mails-list")
+    const mails = gun.get("profiles").get("mails-list")
 
     gunRef.current = gun;
     userRef.current = user;
