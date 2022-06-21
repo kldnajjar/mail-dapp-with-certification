@@ -3,7 +3,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 let Gun = require("gun");
 const SEA = require("gun/sea");
-const corsOptions = require("./src/configs/corsOrigin/corsOptions");
+// const corsOptions = require("./src/configs/corsOrigin/corsOptions");
 
 // implements forked version of bullet catcher with
 // additional error handling
@@ -48,10 +48,10 @@ function verifyToken(msg) {
 
 const gun = Gun({
   web: server,
-  // peers: [
-  //   "https://mykmail-server-usa.herokuapp.com/gun",
-  //   "https://mykmail-server-eu.herokuapp.com/gun",
-  // ],
+  peers: [
+    "https://mykmail-server-usa.herokuapp.com/gun",
+    "https://mykmail-server-eu.herokuapp.com/gun",
+  ],
   // verify: {
   //   check: function () {
   //     console.log("PEER CONNECTED!!");
@@ -77,7 +77,7 @@ app.use(express.json());
 
 // if you're allowing gun access to more than one http origin,
 // you'll want to make sure that CORs for API routes is configured
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.post("/api/certificates", async (req, res) => {
   const { email, pub: userPubKey } = req.body;
