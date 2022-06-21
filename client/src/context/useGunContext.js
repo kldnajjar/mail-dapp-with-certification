@@ -25,6 +25,7 @@ import "gun/sea";
 const GunContext = createContext({
   getGun: () => {},
   getUser: () => {},
+  getMails: () => {},
   getCertificate: () => {},
   setCertificate: () => {},
   onAuth: () => () => {},
@@ -33,6 +34,7 @@ const GunContext = createContext({
 export const GunContextProvider = ({ children }) => {
   const gunRef = useRef();
   const userRef = useRef();
+  const mailsRef = useRef();
   const certificateRef = useRef();
   const accessTokenRef = useRef();
   const onAuthCbRef = useRef();
@@ -120,8 +122,11 @@ export const GunContextProvider = ({ children }) => {
       }
     });
 
+    const mails = gun.get("mails-list")
+
     gunRef.current = gun;
     userRef.current = user;
+    mailsRef.current = mails
   }, []);
 
   return (
@@ -129,6 +134,7 @@ export const GunContextProvider = ({ children }) => {
       value={{
         getGun: () => gunRef.current,
         getUser: () => userRef.current,
+        getMails: () => mailsRef.current,
         getCertificate: () => certificateRef.current,
         setCertificate: (v) => {
           certificateRef.current = v;
