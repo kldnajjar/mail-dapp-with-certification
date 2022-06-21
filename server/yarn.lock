@@ -561,7 +561,7 @@ graceful-fs@^4.1.2:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
   integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
 
-gun@^0.2020.1237:
+gun@^0.2020.1235:
   version "0.2020.1237"
   resolved "https://registry.yarnpkg.com/gun/-/gun-0.2020.1237.tgz#e798917f66a7195a9d620a7c4de3bdc331d32c83"
   integrity sha512-5WiAMqbLzKfYy/45AVGNrI0OiU7hG5z2hdMeRBMDYXGHzkOUDvbrOnO6qaEqmvCwlwzHJaIilKS51KvMyxhDTQ==
