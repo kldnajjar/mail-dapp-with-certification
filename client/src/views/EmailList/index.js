@@ -13,10 +13,49 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import Section from "../Section";
 import EmailRow from "../EmailRow";
 import styles from "./EmailList.module.css";
+import useGunContext from '../../context/useGunContext';
+import { decryption } from "../../util/privacy"
+import Gun from "gun/gun";
+import "gun/sea";
 // import { db } from "../../firebase";
+
+const loop = async (getMails) => {
+  // console.log("inside")
+  getMails().once(mail => {
+    console.log("inside .map()")
+    return mail
+  })
+}
+
+const loopThrough = async (getUser, getMails) => {
+  console.log("inside")
+  let counter = 0
+  await getUser().get("pub").once(async myPub => {
+    const maillist = getMails()
+    console.log(myPub)
+    console.log(++counter)
+    maillist.map().once(mail => {
+      console.log("In once")
+      console.log(mail)
+    })
+  })
+}
+
+const emailsList = async (mails) => {
+  console.log("inside the function")
+  const maillist = mails()
+  await maillist.map().once(mail => {
+    console.log(mail)
+  })
+}
 
 function EmailList() {
   const [emails, setEmails] = useState([]);
+  const { getUser, getMails } = useGunContext();
+
+  console.log("before")
+  loopThrough(getUser, getMails)
+  console.log("after")
 
   useEffect(() => {
     // db.collection("emails")
@@ -67,7 +106,10 @@ function EmailList() {
         <Section Icon={LocalOfferIcon} title="Promotions" color="green" />
       </div> */}
 
-      <div className={styles["emailList-list"]}>
+   
+   
+   
+      {/* <div className={styles["emailList-list"]}>
         {emails.map(({ id, data: { to, subject, message, timestamp } }) => (
           <EmailRow
             id={id}
@@ -84,7 +126,7 @@ function EmailList() {
           description="This is a DOPE"
           time="10pm"
         />
-      </div>
+      </div> */}
     </div>
   );
 }

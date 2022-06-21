@@ -20,7 +20,7 @@ import useGunContext from '../../context/useGunContext';
 import { encryption } from '../../util/privacy';
 
 function Sidebar() {
-  const { getGun, getUser } = useGunContext();
+  const { getGun, getUser, getMails } = useGunContext();
   const dispatch = useDispatch();
 
   let email = {
@@ -35,10 +35,10 @@ function Sidebar() {
   }
 
   async function onCompose(e) {
-    e.preventDefault();
-    const newEmail = await encryption(email, getGun, getUser);
-    getGun().get("mail-list").set(newEmail)
-    console.log(newEmail);
+    e.preventDefault()
+    const newEmail = await encryption(email, getGun, getUser)
+    getMails().set(newEmail)
+    console.log(newEmail)
   }
 
   return (
