@@ -15,7 +15,7 @@ import EmailRow from "../EmailRow";
 import styles from "./EmailList.module.css";
 import useGunContext from '../../context/useGunContext';
 import { decryption } from "../../util/privacy"
-import Gun from "gun/gun";
+import "gun/lib/load";
 import "gun/sea";
 // import { db } from "../../firebase";
 
